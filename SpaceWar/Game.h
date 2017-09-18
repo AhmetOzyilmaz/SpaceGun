@@ -24,6 +24,9 @@ public:
 
 	list<GameObject*> GetContacts(GameObject* object);
 
+	template<class T>
+	T* GetContactByType(GameObject* object);
+
 private:
 	list<GameObject*> objects;
 
@@ -32,3 +35,14 @@ private:
 	list<GameObject*> objectsToRemove;
 };
 
+template<class T>
+inline T* Game::GetContactByType(GameObject * object)
+{
+	auto contacts = GetContacts(object);
+	for (auto& contact : contacts) {
+		if (dynamic_cast<T*>(contact) != nullptr) {
+			return dynamic_cast<T*>(contact);
+		}
+	}
+	return nullptr;
+}

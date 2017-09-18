@@ -26,12 +26,10 @@ void EnemyShip::Update()
 {
 	position += vector2f(0, 1) * speed;
 
-	auto contacts = Game::instance->GetContacts(this);
-	for (auto& contact : contacts) {
-		if (dynamic_cast<PlayerShip*>(contact) != nullptr) {
-			Game::instance->RemoveGameObject(contact);
-			Game::instance->RemoveGameObject(this);
-		}
+	PlayerShip* player = Game::instance->GetContactByType<PlayerShip>(this);
+	if (player != nullptr) {
+		Game::instance->RemoveGameObject(player);
+		Destroy();
 	}
 }
 
